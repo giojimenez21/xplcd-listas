@@ -42,7 +42,7 @@ export const Lists = () => {
     return (
         <div className="mt-3">
             <div className="row">
-                <div className="col-12">
+                <div className="col-12 col-md-8 offset-md-2">
                     <h1 className="text-center">Listas de precios</h1>
                     <select
                         name="list"
@@ -66,20 +66,18 @@ export const Lists = () => {
                             <div className="table-responsive mt-4" key={i}>
                                 <table className="table table-bordered">
                                     <thead>
-                                        <tr>
+                                        <tr style={{backgroundColor: pItem.color}}>
                                             <th
                                                 className="text-center"
                                                 colSpan={8}
                                             >
-                                                <h1>
+                                                <h1 className="text-white">
                                                     {pItem?.nameBrand}
                                                 </h1>
                                             </th>
                                         </tr>
                                         <tr>
                                             <th>Modelo</th>
-                                            <th>Disponible</th>
-                                            <th>AAA</th>
                                             <th>COF</th>
                                             <th>COG</th>
                                             <th>INCELL</th>
@@ -93,8 +91,6 @@ export const Lists = () => {
                                                 return (
                                                     <tr key={i}>
                                                         <td>{product.MODELO}</td>
-                                                        <td>{product.DISPONIBLE}</td>
-                                                        <td>{product.AAA}</td>
                                                         <td>{product.COF}</td>
                                                         <td>{product.COG}</td>
                                                         <td>{product.INCELL}</td>
