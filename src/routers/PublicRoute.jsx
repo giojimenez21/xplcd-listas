@@ -3,9 +3,10 @@ import { Navigate } from "react-router-dom";
 
 
 export const PublicRoute = ({ children, user }) => {
-    return (user?.logged)
-        ? <Navigate to="/" />
-        : children
+    console.log('publico');
+    return (!user?.logged)
+        ? children
+        : <Navigate to="/"/>
 };
 
 
