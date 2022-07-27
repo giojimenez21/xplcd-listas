@@ -16,7 +16,23 @@ export const roles = [
         lists: [61,71]
     },
     {
-        type: "JUAN",
+        type: "31",
+        lists: [31]
+    },
+    {
+        type: "41",
         lists: [41]
+    },
+    {
+        type: "51",
+        lists: [51]
+    },
+    {
+        type: "61",
+        lists: [61]
+    },
+    {
+        type: "71",
+        lists: [71]
     },
 ]

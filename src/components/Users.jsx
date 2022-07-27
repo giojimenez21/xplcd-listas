@@ -74,7 +74,7 @@ export const Users = () => {
                                                 <td>{u.username}</td>
                                                 <td>{u.role}</td>
                                                 <td className="text-center">
-                                                    <button className="btn">
+                                                    <button className="btn text-primary">
                                                         <Link to={`/editUser/${u.id}`}>
                                                             <i className="fa-solid fa-user-pen" />
                                                         </Link>

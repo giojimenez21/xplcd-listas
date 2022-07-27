@@ -7,7 +7,6 @@ export const existUser = async(username) => {
         const response = await get(child(dbRef, 'users'));
         if(response.exists()) {
             const users = Object.values(response.val());
-            console.log(users);
             if(users.find(u => u.username === username)){
                 return true;
             }

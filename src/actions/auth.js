@@ -1,8 +1,10 @@
+import moment from 'moment';
 import bcrypt from 'bcryptjs';  
 import Swal from "sweetalert2";
 import { child, get, ref } from "firebase/database";
 import { database } from "../config/firebaseConfig";
 import { types } from '../types/types';
+
 
 export const startLogin = async({username, password}) => {
     try {
@@ -31,9 +33,12 @@ export const startLogin = async({username, password}) => {
             Swal.fire('Error', "Contraseña incorrecta","error");
             return null;
         }
+
+        const dateExpired = moment();
         
         localStorage.setItem("auth", JSON.stringify({
             username,
+            expired: dateExpired.add(1, 'minutes'),
             logged: true,
             role,
             available
@@ -41,7 +46,8 @@ export const startLogin = async({username, password}) => {
 
         return {
             username,
-            role
+            role,
+            available
         }
         
     } catch (error) {

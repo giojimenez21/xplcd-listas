@@ -1,3 +1,4 @@
+import moment from 'moment';
 import bcrypt from 'bcryptjs';
 import React, { useEffect, useReducer } from "react";
 import { child, get, ref, set } from "firebase/database";
@@ -11,20 +12,21 @@ import { UserContext } from './context/UserContext';
 import { userReducer } from './reducers/userReducer';
 
 export const App = () => {
+    const dateNow = moment();
+    const dbRef = ref(database);
 
     const init = () => {
-        return JSON.parse(localStorage.getItem('auth')) || {
-            logged: false
-        }
+        const authUser = JSON.parse(localStorage.getItem('auth')) || "";
+        if(dateNow.isAfter(authUser.expired)) return { logged: false };
+        return authUser;
     }
+
     const [user, dispatchUser] = useReducer(userReducer);
     const [admin, dispatchAdmin] = useReducer(adminReducer);
     const [auth, dispatchAuth] = useReducer(authReducer, {}, init);
     
-
     
     const verifyUserAdmin = async () => {
-        const dbRef = ref(database);
         const response = await get(child(dbRef, `users/${import.meta.env.VITE_ADMIN_USER}`));
         
         if (!response.exists()) {
