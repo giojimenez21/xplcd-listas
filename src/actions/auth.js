@@ -38,7 +38,7 @@ export const startLogin = async({username, password}) => {
         
         localStorage.setItem("auth", JSON.stringify({
             username,
-            expired: dateExpired.add(1, 'minutes'),
+            expired: dateExpired.add(12, 'hours'),
             logged: true,
             role,
             available
