@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getUsers, startGetUsers } from "../actions/admin";
+import { getUsers, lockUser, startGetUsers, startLockUser, startUnlockUser, unlockUser } from "../actions/admin";
 import { AdminContext } from "../context/AdminContext";
 import { AuthContext } from "../context/AuthContext";
 
@@ -9,11 +9,27 @@ export const Users = () => {
     const [loading, setLoading] = useState(true);
     const { admin, dispatchAdmin } = useContext(AdminContext);
 
+    const handleLock = async(user) => {
+        if(user.available) {
+            const response = await startLockUser(user.id);
+            if(response) {
+                dispatchAdmin(lockUser(user.id));
+            }
+            
+        }else{
+            const response = await startUnlockUser(user.id);
+            if(response) {
+                dispatchAdmin(unlockUser(user.id));
+            }
+        }     
+    }
+    
     const getAllUsers = async () => {
         const users = await startGetUsers();
         dispatchAdmin(getUsers(users));
         setLoading(false);
     };
+
     useEffect(() => {
         getAllUsers();
     }, []);
@@ -48,18 +64,26 @@ export const Users = () => {
                                     <th>Nombre</th>
                                     <th>Rol</th>
                                     <th>Editar</th>
+                                    <th>Bloquear acceso</th>
                                 </tr>
                                 {admin?.users
                                     .filter((u) => u.username !== auth.username)
                                     .map((u, i) => {
                                         return (
-                                            <tr key={i}>
+                                            <tr key={i} className={`${!u.available && "bg-danger text-white"}`}>
                                                 <td>{u.username}</td>
                                                 <td>{u.role}</td>
                                                 <td className="text-center">
-                                                    <Link to={`/editUser/${u.id}`}>
-                                                        <i className="fa-solid fa-user-pen" />
-                                                    </Link>
+                                                    <button className="btn">
+                                                        <Link to={`/editUser/${u.id}`}>
+                                                            <i className="fa-solid fa-user-pen" />
+                                                        </Link>
+                                                    </button>
+                                                </td>
+                                                <td className="text-center">
+                                                    <button className={`btn ${u.available ? "text-danger" : "text-white"}`} onClick={() => handleLock(u)}>
+                                                        <i className="fa-solid fa-user-slash"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         );

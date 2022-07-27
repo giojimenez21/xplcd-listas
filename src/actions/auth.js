@@ -8,6 +8,7 @@ export const startLogin = async({username, password}) => {
     try {
         const dbRef = ref(database);
         const response = await get(child(dbRef, 'users'));
+
         if (!response.exists()) {
             Swal.fire('Error', "No existe algun usuario con ese nombre.","error");
             return null;
@@ -19,16 +20,23 @@ export const startLogin = async({username, password}) => {
             Swal.fire('Error', "No existe algun usuario con ese nombre.","error");
             return null;
         }
-        const { username:userDB, role, password:passDB } = users[0];
+
+        if(!users[0].available){
+            Swal.fire('Error', "El usuario fue inhabilitado, comuniquese con el administrador.","error");
+            return null;
+        }
+        const { username:userDB, role, password:passDB, available } = users[0];
 
         if(!bcrypt.compareSync(password, passDB)){
             Swal.fire('Error', "Contraseña incorrecta","error");
             return null;
         }
+        
         localStorage.setItem("auth", JSON.stringify({
             username,
             logged: true,
-            role
+            role,
+            available
         }));
 
         return {

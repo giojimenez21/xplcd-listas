@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
-import { child, get, ref, set } from "firebase/database";
+import { child, get, ref, set, update } from "firebase/database";
 import { database } from "../config/firebaseConfig";
 import { types } from "../types/types";
 
@@ -31,6 +31,7 @@ export const startCreateUser = (user) => {
             username: user.username,
             password: hash,
             role: user.role,
+            available:true
         });
         return true;
     } catch (error) {
@@ -48,19 +49,20 @@ export const startEditUser = (user, id) => {
         const salt = bcrypt.genSaltSync(10);
         if(user.password !== "") {
             const hash = bcrypt.hashSync(user.password, salt);
-            set(ref(database, `users/${id}`), {
+            update(ref(database, `users/${id}`), {
                 ...user,
                 password: hash,
                 id
             });
             return true;
+        }else {
+            update(ref(database, `users/${id}`), {
+                id,
+                username: user.username,
+                role: user.role
+            });
+            return true;
         }
-        set(ref(database, `users/${id}`), {
-            ...user,
-            id
-        });
-        return true;
-
     } catch (error) {
         console.log(error);
     }
@@ -69,4 +71,36 @@ export const startEditUser = (user, id) => {
 export const editUser = (user) => ({
     type: types.editUser,
     payload: user
+});
+
+export const startLockUser = async(id) => {
+    try {
+        await update(ref(database, `users/${id}`), {
+            available: false
+        });
+        return true;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const lockUser = (id) =>({
+    type: types.lockUser,
+    payload: id
+});
+
+export const startUnlockUser = async(id) => {
+    try {
+        await update(ref(database, `users/${id}`), {
+            available: true
+        });
+        return true;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const unlockUser = (id) =>({
+    type: types.unlockUser,
+    payload: id
 });

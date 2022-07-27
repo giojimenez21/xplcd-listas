@@ -12,11 +12,10 @@ export const authReducer = (state = init, action) => {
                 ...action.payload
             }
 
-        case types.logout: {
+        case types.logout:
             return {
                 ...init
             }
-        }
     
         default:
             return state;

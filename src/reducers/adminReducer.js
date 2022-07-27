@@ -32,11 +32,41 @@ export const adminReducer = (state = init, action) => {
                     return u;
                 })
             }
+
+        case types.lockUser:
+            return {
+                ...state,
+                users: state.users.map(u => {
+                    if(u.id === action.payload) {
+                        return {
+                            ...u,
+                            available: false
+                        }
+                    }
+                    return u;
+                })
+            }
+
+        case types.unlockUser:
+            return {
+                ...state,
+                users: state.users.map(u => {
+                    if(u.id === action.payload) {
+                        return {
+                            ...u,
+                            available: true
+                        }
+                    }
+                    return u;
+                })
+            }
+
         case types.logout:{
             return {
                 ...init
             }
         }
+        
         default:
             return state;
     }

@@ -4,5 +4,7 @@ export const types = {
     getUsers: "[admin] getUsers",
     createUser: "[admin] createUser",
     editUser: "[admin] editUser",
-    getPrices: "[user] getPrices"
+    getPrices: "[user] getPrices",
+    lockUser: "[auth] lockUser",
+    unlockUser: "[auth] unlockUser"
 }

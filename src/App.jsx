@@ -33,7 +33,8 @@ export const App = () => {
             set(ref(database, `users/${import.meta.env.VITE_ADMIN_USER}`), {
                 username: import.meta.env.VITE_ADMIN_USER,
                 password: hash,
-                role: "ADMIN"
+                role: "ADMIN",
+                available: true
             });
             
         }
