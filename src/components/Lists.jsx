@@ -1,43 +1,25 @@
+import { onValue, ref } from "firebase/database";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { logout } from "../actions/auth";
-import { getListPrices, startGetListPrice } from "../actions/user";
+import { database } from "../config/firebaseConfig";
 import { AuthContext } from "../context/AuthContext";
-import { UserContext } from "../context/UserContext";
-import { useForm } from "../hooks/useForm";
+import { orderData } from "../helpers/orderData";
 import { roles } from "../types/roles";
 import { ExportXLSX } from "./ExportXLSX";
 
 export const Lists = () => {
     const dataTable = useRef();
     const { auth } = useContext(AuthContext);
-    const [loading, setLoading] = useState();
-    const { user, dispatchUser } = useContext(UserContext);
-    const { lists } = roles.find((rol) => rol.type === auth.role);
-    const [selectValue, handleChange] = useForm({
-        list: "",
-    });
-
-    const getData = async () => {
-        if (selectValue.list !== "") {
-            setLoading(true);
-            const data = await startGetListPrice(selectValue.list);
-            if (data) {
-                dispatchUser(getListPrices(data));
-            }
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getData();
-    }, [selectValue.list]);
-
-    useEffect(() => {
-        return () => {
-            dispatchUser(logout());
-        }
-    }, []);
+    const startListRef = ref(database, "listas");
+    const [loading, setLoading] = useState(true);
+    const [dataLists, setDataLists] = useState([]);
     
+    useEffect(() => {
+        onValue(startListRef, (snapshot) => {
+            const data = snapshot.val();
+            setLoading(false);
+            setDataLists(orderData(data, auth.role));
+        });
+    }, []);
 
     if (loading) {
         return (
@@ -53,101 +35,48 @@ export const Lists = () => {
         <div className="mt-3">
             <div className="row">
                 <div className="col-12 col-md-8 offset-md-2">
-                    <h1 className="text-center">Listas de precios</h1>
-                    <div className="row">
-                        <div
-                            className={`${
-                                selectValue.list !== "" ? "col-10" : "col-12"
-                            }`}
-                        >
-                            <select
-                                name="list"
-                                className="form-select"
-                                defaultValue={selectValue.list}
-                                onChange={handleChange}
-                            >
-                                <option value="">Seleccione una lista</option>
-                                {lists.map((list, i) => {
-                                    return (
-                                        <option key={i} value={list}>
-                                            {list}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-                        {selectValue.list !== "" && (
-                            <div className="col-2">
-                                <ExportXLSX data={dataTable} />
-                            </div>
-                        )}
+                    <div className="d-flex justify-content-between flex-wrap mb-3">
+                        <h1 className="text-center">Listas de precios</h1>
+                        <ExportXLSX data={dataTable} />
                     </div>
                     <div ref={dataTable}>
-                        {user?.priceList.map((pItem, i) => {
-                            return (
-                                <div
-                                    className="table-responsive mt-4"
-                                    key={i}
-                                    
-                                >
-                                    <table className="table table-bordered">
-                                        <thead>
-                                            <tr
-                                                style={{
-                                                    backgroundColor:
-                                                        pItem.color,
-                                                }}
+                        {dataLists.map((list) => (
+                            <div className="table-responsive mb-4">
+                                <table className="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                className="text-center text-white fs-2 fw-semibold"
+                                                style={{ backgroundColor: list.color }}
+                                                colSpan={ Object.keys(list.products[0]).length }
                                             >
-                                                <th
-                                                    className="text-center"
-                                                    colSpan={8}
-                                                >
-                                                    <h1 className="text-white">
-                                                        {pItem?.nameBrand}
-                                                    </h1>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Modelo</th>
-                                                <th>OR</th>
-                                                <th>OLED</th>
-                                                <th>INCELL</th>
-                                                <th>COF</th>
-                                                <th>COG</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {pItem?.products.map(
-                                                (product, i) => {
-                                                    return (
-                                                        <tr key={i}>
-                                                            <td>
-                                                                {product.MODELO}
-                                                            </td>
-                                                            <td>
-                                                                {product.OR}
-                                                            </td>
-                                                            <td>
-                                                                {product.OLED}
-                                                            </td>
-                                                            <td>
-                                                                {product.INCELL}
-                                                            </td>
-                                                            <td>
-                                                                {product.COF}
-                                                            </td>
-                                                            <td>
-                                                                {product.COG}
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                }
+                                                {list.nameBrand}
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            {Object.keys(list.products[0]).map(
+                                                (th) => (
+                                                    <th className="text-uppercase">
+                                                        {th}
+                                                    </th>
+                                                )
                                             )}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            );
-                        })}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {list.products.map((product) => (
+                                            <tr>
+                                                {Object.values(product).map(
+                                                    (value) => (
+                                                        <td>{value}</td>
+                                                    )
+                                                )}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

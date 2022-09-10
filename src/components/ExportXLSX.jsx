@@ -8,7 +8,7 @@ export const ExportXLSX = ({data}) => {
     }
     
     return (
-        <button className='btn btn-primary w-100' onClick={exportData}>
+        <button className='btn btn-primary' onClick={exportData}>
             Exportar
         </button>
     )

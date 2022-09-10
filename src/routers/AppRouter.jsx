@@ -23,27 +23,20 @@ export const AppRouter = () => {
                             </PublicRoute>
                         }
                     />
-                    {
-                        auth.role === "ADMIN"
-                        ?
-                        <Route
-                            path="/*"
-                            element={
-                                <PrivateRoute user={auth}>
+                    <Route
+                        path="/*"
+                        element={
+                            <PrivateRoute user={auth}>
+                                {
+                                    auth.role === "ADMIN"
+                                    ?
                                     <AdminRoutes />
-                                </PrivateRoute>
-                            }
-                        />
-                        :
-                        <Route
-                            path="/*"
-                            element={
-                                <PrivateRoute user={auth}>
+                                    :
                                     <UserRoutes />
-                                </PrivateRoute>
-                            }
-                        />
-                    }
+                                }
+                            </PrivateRoute>
+                        }
+                    />
                 </Routes>
             </Router>
         </div>
