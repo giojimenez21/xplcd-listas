@@ -45,7 +45,9 @@ export const NavbarUser = () => {
                             </Link>
                         </li>
 
-                        <button className="ms-2 btn btn-danger" onClick={handleLogout}>Salir</button>
+                        <li className="nav-item">
+                            <button className="ms-2 btn btn-danger" onClick={handleLogout}>Salir</button>
+                        </li>
                     </ul>
                 </div>
             </div>

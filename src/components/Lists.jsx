@@ -39,43 +39,41 @@ export const Lists = () => {
                         <h1 className="text-center">Listas de precios</h1>
                         <ExportXLSX data={dataTable} />
                     </div>
-                    <div ref={dataTable}>
+                    <div ref={dataTable} className="w-100">
                         {dataLists.map((list) => (
-                            <div className="table-responsive mb-4">
-                                <table className="table table-bordered">
-                                    <thead>
+                            <table className="table table-bordered mb-4 w-100">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            className="text-center text-white fs-2 fw-semibold"
+                                            style={{ backgroundColor: list.color }}
+                                            colSpan={ Object.keys(list.products[0]).length }
+                                        >
+                                            {list.nameBrand}
+                                        </th>
+                                    </tr>
+                                    <tr className="sticky-top bg-light">
+                                        {Object.keys(list.products[0]).map(
+                                            (th) => (
+                                                <th className="text-uppercase">
+                                                    {th}
+                                                </th>
+                                            )
+                                        )}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {list.products.map((product) => (
                                         <tr>
-                                            <th
-                                                className="text-center text-white fs-2 fw-semibold"
-                                                style={{ backgroundColor: list.color }}
-                                                colSpan={ Object.keys(list.products[0]).length }
-                                            >
-                                                {list.nameBrand}
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            {Object.keys(list.products[0]).map(
-                                                (th) => (
-                                                    <th className="text-uppercase">
-                                                        {th}
-                                                    </th>
+                                            {Object.values(product).map(
+                                                (value) => (
+                                                    <td>{value}</td>
                                                 )
                                             )}
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        {list.products.map((product) => (
-                                            <tr>
-                                                {Object.values(product).map(
-                                                    (value) => (
-                                                        <td>{value}</td>
-                                                    )
-                                                )}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                    ))}
+                                </tbody>
+                            </table>
                         ))}
                     </div>
                 </div>

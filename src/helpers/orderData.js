@@ -9,7 +9,6 @@ export const orderData = (data, role) => {
                 newProduct = {
                     modelo: d.MODELO,
                     calidad: d.CALIDAD,
-                    base: d.BASE,
                     xp31: d.XP31,
                     xp41: d.XP41,
                     xp51: d.XP51,
