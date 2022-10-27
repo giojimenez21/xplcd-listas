@@ -1,0 +1,84 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login__hr {
+    width: 25px;
+    height: 5px;
+    margin: 5px auto;
+    background-color: #EA601C;
+}
+
+.login__input_container i{
+    color: #E0E0E0;
+    font-size: 18px;
+}
+
+.login__input {
+    border: solid #E0E0E0 6px;
+    border-radius: 4% 4% 4% 4% / 70% 70% 70% 70%;
+    display: block;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    letter-spacing: 3px;
+    width: 100%;
+}
+
+.login__input:focus {
+    outline: none;
+}
+
+.login__btn {
+    background-color: #503E8C;
+    border-radius: 3px;
+    border: none;
+    color: #FFF;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 0px 16px;
+    transition: all 0.5s;
+}
+
+.login__btn:hover {
+    background-color: #3b2d68;
+}
+
+.navbar_btn_logout {
+    background-color: #D10000;
+    border: none;
+    outline: none;
+    padding: 0px 18px;
+    font-size: 18px;
+    font-weight: 900;
+    color: #FFF;
+    letter-spacing: 4px;
+}
+
+.navbar_btn_logout:hover {
+    background-color: #ad0000;
+}
+
+.welcome_title {
+    font-size: 64px;
+    font-weight: bold;
+}
+
+.welcome_btn {
+    background-color: #EB5B27;
+    border-radius: 5px;
+    color: #FFF;
+    display: block;
+    font-size: 34px;
+    font-weight: bold;
+    margin: auto;
+    padding: 5px;
+    text-decoration: none;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+    width: 225px;
+}
+
+.welcome_btn:hover {
+    background-color: #d15224;
+    color: #FFF;
+}
+

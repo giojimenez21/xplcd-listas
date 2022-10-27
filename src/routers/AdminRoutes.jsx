@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { EditUser } from "../components/EditUser";
 import { Lists } from "../components/Lists";
-import { NavbarAdmin } from "../components/NavbarAdmin";
+import { Navbar } from "../components/Navbar";
 import { NewUser } from "../components/NewUser";
 import { Users } from "../components/Users";
 import { Welcome } from "../components/Welcome";
@@ -10,7 +10,7 @@ import { Welcome } from "../components/Welcome";
 export const AdminRoutes = () => {
     return (
         <>
-            <NavbarAdmin />
+            <Navbar />
             <div className="container">
                 <Routes>
                     <Route path="/" element={<Welcome />} />

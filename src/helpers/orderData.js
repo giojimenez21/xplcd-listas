@@ -16,6 +16,18 @@ export const orderData = (data, role) => {
                     xp71: d.XP71,
                 };
                 break;
+            case "MOKA":
+                newProduct = {
+                    modelo: d.MODELO,
+                    calidad: d.CALIDAD,
+                    base: d.BASE,
+                    xp31: d.XP31,
+                    xp41: d.XP41,
+                    xp51: d.XP51,
+                    xp61: d.XP61,
+                    xp71: d.XP71,
+                };
+                break;
             case "MAYORISTA1":
                 newProduct = {
                     modelo: d.MODELO,
