@@ -39,7 +39,7 @@ export const Lists = () => {
                         <ExportXLSX data={dataTable} />
                     </div>
                     <div ref={dataTable} className="w-100">
-                        {dataLists.map((list) => (
+                        {dataLists.map((list, i) => (
                             <table className="table table-bordered mb-4 w-100">
                                 <thead>
                                     <tr>
